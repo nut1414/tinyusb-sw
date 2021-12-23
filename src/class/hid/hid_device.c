@@ -150,18 +150,16 @@ bool tud_hid_n_mouse_report(uint8_t instance, uint8_t report_id,
 }
 
 bool tud_hid_n_gamepad_report(uint8_t instance, uint8_t report_id,
-                              int8_t x, int8_t y, int8_t z, int8_t rz, int8_t rx, int8_t ry, uint8_t hat, uint32_t buttons)
+                              uint8_t lx, uint8_t ly, uint8_t rx, uint8_t ry, uint8_t hat, uint32_t buttons)
 {
   hid_gamepad_report_t report =
   {
-    .x       = x,
-    .y       = y,
-    .z       = z,
-    .rz      = rz,
-    .rx      = rx,
-    .ry      = ry,
-    .hat     = hat,
     .buttons = buttons,
+    .hat     = hat,
+    .lx       = lx,
+    .ly       = ly,
+    .rx       = rx,
+    .ry      = ry,
   };
 
   return tud_hid_n_report(instance, report_id, &report, sizeof(report));

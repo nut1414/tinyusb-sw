@@ -238,8 +238,8 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
 
       hid_gamepad_report_t report =
       {
-        .x   = 0, .y = 0, .z = 0, .rz = 0, .rx = 0, .ry = 0,
-        .hat = 0, .buttons = 0
+        .hat = 0, .buttons = 0,
+        .lx  = 0, .ly = 0, .rx = 0, .ry = 0
       };
 
       if ( 1 )
