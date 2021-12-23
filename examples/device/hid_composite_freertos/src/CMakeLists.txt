@@ -1,7 +1,10 @@
+set(BOARD espressif_saola_1)
+
 idf_component_register(SRCS "main.c" "usb_descriptors.c"
                     INCLUDE_DIRS "."
                     REQUIRES freertos soc)
 
+                    
 file(TO_NATIVE_PATH "${TOP}/hw/bsp/${FAMILY}/boards/${BOARD}/board.cmake" board_cmake)
 
 if(EXISTS ${board_cmake})

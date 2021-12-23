@@ -179,6 +179,7 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
 
   switch(report_id)
   {
+    /*
     case REPORT_ID_KEYBOARD:
     {
       // use to avoid send multiple consecutive zero report for keyboard
@@ -229,7 +230,7 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
       }
     }
     break;
-
+    */
     case REPORT_ID_GAMEPAD:
     {
       // use to avoid send multiple consecutive zero report for keyboard
@@ -241,10 +242,10 @@ static void send_hid_report(uint8_t report_id, uint32_t btn)
         .hat = 0, .buttons = 0
       };
 
-      if ( btn )
+      if ( 1 )
       {
         report.hat = GAMEPAD_HAT_UP;
-        report.buttons = GAMEPAD_BUTTON_A;
+        report.buttons = GAMEPAD_BUTTON_START;
         tud_hid_report(REPORT_ID_GAMEPAD, &report, sizeof(report));
 
         has_gamepad_key = true;
@@ -283,11 +284,11 @@ void hid_task(void* param)
     else
     {
       // Send the 1st of report chain, the rest will be sent by tud_hid_report_complete_cb()
-      send_hid_report(REPORT_ID_KEYBOARD, btn);
+      send_hid_report(REPORT_ID_GAMEPAD, btn);
     }
   }
 }
-
+/*
 // Invoked when sent REPORT successfully to host
 // Application can use this to send the next report
 // Note: For composite reports, report[0] is report ID
@@ -303,7 +304,7 @@ void tud_hid_report_complete_cb(uint8_t instance, uint8_t const* report, uint8_t
     send_hid_report(next_report_id, board_button_read());
   }
 }
-
+*/
 
 // Invoked when received GET_REPORT control request
 // Application must fill buffer report's content and return its length.
@@ -329,6 +330,7 @@ void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_
   if (report_type == HID_REPORT_TYPE_OUTPUT)
   {
     // Set keyboard LED e.g Capslock, Numlock etc...
+    /*
     if (report_id == REPORT_ID_KEYBOARD)
     {
       // bufsize should be (at least) 1
@@ -347,7 +349,9 @@ void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_
         board_led_write(false);
         xTimerStart(blinky_tm, portMAX_DELAY);
       }
+
     }
+    */
   }
 }
 
@@ -357,8 +361,8 @@ void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_
 void led_blinky_cb(TimerHandle_t xTimer)
 {
   (void) xTimer;
-  static bool led_state = false;
+  //static bool led_state = false;
 
-  board_led_write(led_state);
-  led_state = 1 - led_state; // toggle
+  //board_led_write(led_state);
+  //led_state = 1 - led_state; // toggle
 }

@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
-
+set(BOARD espressif_saola_1)
+set(FAMILY esp32s2)
 # use BOARD-Directory name for project id
 get_filename_component(PROJECT ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-set(PROJECT ${BOARD}-${PROJECT})
+set(PROJECT ${BOARD}${PROJECT})
 
 # TOP is absolute path to root directory of TinyUSB git repo
 set(TOP "../../..")

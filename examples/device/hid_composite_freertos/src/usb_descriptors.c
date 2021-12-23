@@ -36,8 +36,8 @@
 #define USB_PID           (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | \
                            _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4) )
 
-#define USB_VID   0xCafe
-#define USB_BCD   0x0200
+#define USB_VID   0x0F0D
+#define USB_BCD   0x0092
 
 //--------------------------------------------------------------------+
 // Device Descriptors
@@ -58,7 +58,7 @@ tusb_desc_device_t const desc_device =
 
     .iManufacturer      = 0x01,
     .iProduct           = 0x02,
-    .iSerialNumber      = 0x03,
+    .iSerialNumber      = 0x00,
 
     .bNumConfigurations = 0x01
 };
@@ -76,9 +76,6 @@ uint8_t const * tud_descriptor_device_cb(void)
 
 uint8_t const desc_hid_report[] =
 {
-  TUD_HID_REPORT_DESC_KEYBOARD( HID_REPORT_ID(REPORT_ID_KEYBOARD         )),
-  TUD_HID_REPORT_DESC_MOUSE   ( HID_REPORT_ID(REPORT_ID_MOUSE            )),
-  TUD_HID_REPORT_DESC_CONSUMER( HID_REPORT_ID(REPORT_ID_CONSUMER_CONTROL )),
   TUD_HID_REPORT_DESC_GAMEPAD ( HID_REPORT_ID(REPORT_ID_GAMEPAD          ))
 };
 
@@ -103,7 +100,7 @@ enum
 
 #define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_HID_DESC_LEN)
 
-#define EPNUM_HID   0x81
+#define EPNUM_HID   (0x80 | 1)
 
 uint8_t const desc_configuration[] =
 {
@@ -178,10 +175,10 @@ uint8_t const * tud_descriptor_configuration_cb(uint8_t index)
 // array of pointer to string descriptors
 char const* string_desc_arr [] =
 {
-  (const char[]) { 0x09, 0x04 }, // 0: is supported language is English (0x0409)
-  "TinyUSB",                     // 1: Manufacturer
-  "TinyUSB Device",              // 2: Product
-  "123456",                      // 3: Serials, should use chip ID
+  (const char[]) { 0x00 }, // 0: is supported language is English (0x0409)
+  "HORI CO.,LTD.",                     // 1: Manufacturer
+  "POKKEN CONTROLLER",              // 2: Product
+  "",                      // 3: Serials, should use chip ID
 };
 
 static uint16_t _desc_str[32];
@@ -203,7 +200,7 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid)
     // Note: the 0xEE index string is a Microsoft OS 1.0 Descriptors.
     // https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/microsoft-defined-usb-descriptors
 
-    if ( !(index < sizeof(string_desc_arr)/sizeof(string_desc_arr[0])) ) return NULL;
+    if ( !(index < sizeof(string_desc_arr)/sizeof(string_desc_arr[0])) ) return NULL;             
 
     const char* str = string_desc_arr[index];
 
